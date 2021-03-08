@@ -66,7 +66,7 @@ function makeTimetable() {
 
 //Function to get all class from db
 function getData() {
-    console.log("getData ruinning");
+    //console.log("getData ruinning");
     var eventList = new Map();
     db.collection("Classes")
         .onSnapshot((querySnapshot) => {
@@ -78,7 +78,7 @@ function getData() {
                 var customOptions = {
                     data: { // each property will be added to the data-* attributes of the DOM node for this event
                         location: newEvent.room,
-                        teacher : newEvent.teacher,
+                        teacher: newEvent.teacher,
                         type: newEvent.type
                     },
                     onClick: function (event, timetable, clickEvent) {
@@ -107,11 +107,11 @@ function addToDelSelect(eventList) {
     // Delete all option already in select
     var select = document.getElementById("deleteDD");
     var length = select.options.length;
-    console.log(length);
+    //console.log(length);
     for (i = length - 1; i >= 0; i--) {
         select.options[i] = null;
     }
-    console.log(eventList.size);
+    //console.log(eventList.size);
     /*
     for (var i = 0; i < eventList.size; i++) {
         var sel = document.getElementById('deleteDD');
@@ -137,18 +137,22 @@ function addToDelSelect(eventList) {
 
 // Delete a class form
 function deleteClass() {
-    var selected = document.getElementById("deleteDD");
-    var selectedOption = selected.value;
-    $("#deleteDD").empty();
+    var r = confirm("Are you sure you want to delete this class?");
+    if (r == true) {
+        // Delete the selected class
+        var selected = document.getElementById("deleteDD");
+        var selectedOption = selected.value;
+        $("#deleteDD").empty();
 
-    db.collection("Classes").doc(selectedOption).delete().then(() => {
-        console.log("Document successfully deleted!");
-        location.reload();
-    }).catch((error) => {
-        console.error("Error removing document: ", error);
-    });
-
-
+        db.collection("Classes").doc(selectedOption).delete().then(() => {
+            console.log("Document successfully deleted!");
+            location.reload();
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
+    } else {
+        // Do nothing dont delete class
+    }
 }
 
 // Add a class form
@@ -164,7 +168,7 @@ function makeNewClass() {
     var location = document.getElementById("locationInput").value;
     var teacher = document.getElementById("teacherInput").value;
     var type = document.getElementById("typeInput").value;
-    
+
     // Add a new document with a generated id.
     db.collection("Classes").add({
             name: name,
@@ -215,7 +219,7 @@ const showModal = (event) => {
     modalWrap = document.createElement('div');
     modalWrap.innerHTML = `
     <div class="modal fade" tabindex="-1">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header bg-light">
             <h5 class="modal-title">
@@ -227,7 +231,6 @@ const showModal = (event) => {
 
                 <p><strong>Day: </strong>${event.location} </p>
                 <p><strong>Start Time: </strong>${event.startDate}  </p>
-                <p><strong>End Time: </strong>${event.endDate}  </p>
                 <p><strong>End Time: </strong>${event.endDate}  </p>
                 <p><strong>Location: </strong>${event.options.data.location}  </p>
                 <p><strong>Teacher: </strong>${event.options.data.teacher}  </p>

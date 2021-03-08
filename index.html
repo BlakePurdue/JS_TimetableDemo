@@ -3,7 +3,7 @@
     <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Year 3 Timetable</title>
+    <title>BP JS Timetable Demo</title>
 
     <!-- BOOTSTRAP 5 LINKS   -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
@@ -85,33 +85,27 @@
                 
                 <div class="col-md-3">
                     <label for="startTimeHrInput" class="form-label">Start Time(hr)</label>
-                    <input type="text" class="form-control" id="startTimeHrInput">
+                    <input type="number" min="0" max="24" class="form-control" id="startTimeHrInput" >
                 </div>
                 <div class="col-md-3">
                     <label for="startTimeMinInput" class="form-label">Start Time(min)</label>
-                    <input type="text" class="form-control" id="startTimeMinInput">
+                    <input type="number" min="0" max="60" class="form-control" id="startTimeMinInput" >
                 </div>
                 <div class="col-md-3">
                     <label for="endTimeHrInput" class="form-label">End Time(hr)</label>
-                    <input type="text" class="form-control" id="endTimeHrInput">
+                    <input type="number" min="0" max="24" class="form-control" id="endTimeHrInput" >
                 </div>
                 <div class="col-md-3">
                     <label for="endTimeMinInput" class="form-label">End Time(min)</label>
-                    <input type="text" class="form-control" id="endTimeMinInput">
+                    <input type="number" min="0" max="60" class="form-control" id="endTimeMinInput" >
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-warning float-start">Clear</button>
-                    <button onclick="return makeNewClass()" type="submit" class="btn btn-primary float-end">Add Class</button>
+                    <button onclick="return makeNewClass()" type="submit" class="btn btn-primary float-end" required>Add Class</button>
                 </div>
             </form>
         </div> <!-- add clas Div col end-->
 
-        <p>
-            Add class DONE, <br>
-            Class Options, <br>
-            Delete class, <br>
-            Remove clas dropdown duplicates DONE
-        </p>
     </div> <!-- Main container end-->
 
 
