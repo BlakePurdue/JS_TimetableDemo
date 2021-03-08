@@ -42,18 +42,7 @@ timetable.addLocations([
     'Friday'
 ]);
 
-var options = {
-    url: '#', // makes the event clickable
-    class: 'vip', // additional css class
-    data: { // each property will be added to the data-* attributes of the DOM node for this event
-        id: 4,
-        ticketType: 'VIP'
-    },
-    onClick: function (event, timetable, clickEvent) {
-        console.log(event.name);
-        showModal(event.name);
-    } // custom click handler, which is passed the event object and full timetable as context  
-};
+
 
 // Function called on load of index.html to render timetable and run getData function
 function makeTimetable() {
