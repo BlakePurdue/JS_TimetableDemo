@@ -1,0 +1,124 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year 3 Timetable</title>
+
+    <!-- BOOTSTRAP 5 LINKS   -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+    <!-- BOOTSTRAP 4 LINKS
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    -->
+    <!-- FIREBASE LINKS-->
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-firestore.js"></script>
+</head>
+
+<body onload="makeTimetable()">
+    <div class="container-fluid bg-warning shadow">
+        <h2 class="py-4 text-center">BP JS Timetable Demo</h2>
+    </div>
+    <div class="container pt-2">
+
+        <div style="overflow: none;" class="timetable"></div>
+    </div>
+
+    <div class="container row mx-auto pt-5">
+        <div class="col-lg-6 p-3">
+            <!-- Delete Class -->
+            <h4>Remove Class</h4>
+            <hr class="my-3" />
+            <select id="deleteDD" class="form-select mt-4" aria-label="Default select example">
+
+            </select>
+
+            <button onclick="deleteClass()" type="button" class="btn btn-danger mt-2 float-end">Delete Class</button>
+        </div>
+
+
+        <div class="col-lg-6 p-3">
+            <h4>Add Class</h4>
+            <hr class="my-3" />
+            <!-- Add new class form -->
+            <form id="newClassForm" class="row g-3" onsubmit="return false">
+
+                <div class="col-md-6">
+                    <label for="classInput" class="form-label">Class Name</label>
+                    <input type="text" class="form-control" id="classInput">
+                </div>
+                <div class="col-md-6">
+                    <label for="dayInput" class="form-label">Day</label>
+                    <select id="dayInput" class="form-select">
+                        <option selected>Monday</option>
+                        <option>Tuesday</option>
+                        <option>Wednesday</option>
+                        <option>Thursday</option>
+                        <option>Friday</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-4">
+                    <label for="locationInput" class="form-label">Location</label>
+                    <input type="text" class="form-control" id="locationInput">
+                </div>
+                <div class="col-md-4">
+                    <label for="teacherInput" class="form-label">Teacher</label>
+                    <input type="text" class="form-control" id="teacherInput">
+                </div>
+                <div class="col-md-4">
+                    <label for="typeInput" class="form-label">Type</label>
+                    <select id="typeInput" class="form-select">
+                        <option selected>Lecture</option>
+                        <option>Lab</option>
+                        <option>Meeting</option>
+                        <option>Team Meeting</option>
+                        <option>Other</option>
+                        <option>SMOKO</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-3">
+                    <label for="startTimeHrInput" class="form-label">Start Time(hr)</label>
+                    <input type="text" class="form-control" id="startTimeHrInput">
+                </div>
+                <div class="col-md-3">
+                    <label for="startTimeMinInput" class="form-label">Start Time(min)</label>
+                    <input type="text" class="form-control" id="startTimeMinInput">
+                </div>
+                <div class="col-md-3">
+                    <label for="endTimeHrInput" class="form-label">End Time(hr)</label>
+                    <input type="text" class="form-control" id="endTimeHrInput">
+                </div>
+                <div class="col-md-3">
+                    <label for="endTimeMinInput" class="form-label">End Time(min)</label>
+                    <input type="text" class="form-control" id="endTimeMinInput">
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-warning float-start">Clear</button>
+                    <button onclick="return makeNewClass()" type="submit" class="btn btn-primary float-end">Add Class</button>
+                </div>
+            </form>
+        </div> <!-- add clas Div col end-->
+
+        <p>
+            Add class DONE, <br>
+            Class Options, <br>
+            Delete class, <br>
+            Remove clas dropdown duplicates DONE
+        </p>
+    </div> <!-- Main container end-->
+
+
+
+</body>
+
+<link rel="stylesheet" href="timetablejs.css">
+<script src="timetable.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="main.js"></script></html>
