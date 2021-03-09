@@ -42,7 +42,18 @@ timetable.addLocations([
     'Friday'
 ]);
 
-
+var options = {
+    url: '#', // makes the event clickable
+    class: 'vip', // additional css class
+    data: { // each property will be added to the data-* attributes of the DOM node for this event
+        id: 4,
+        ticketType: 'VIP'
+    },
+    onClick: function (event, timetable, clickEvent) {
+        console.log(event.name);
+        showModal(event.name);
+    } // custom click handler, which is passed the event object and full timetable as context  
+};
 
 // Function called on load of index.html to render timetable and run getData function
 function makeTimetable() {
@@ -76,18 +87,28 @@ function getData() {
                     } // custom click handler, which is passed the event object and full timetable as context  
                 };
 
+                var startDate = new Date(2015, 7, 17, newEvent.startDateHr, newEvent.startDateMin);
+                var endDate = new Date(2015, 7, 17, newEvent.endDateHr, newEvent.endDateMin);
 
-                timetable.addEvent(
-                    newEvent.name,
-                    newEvent.day,
-                    new Date(2015, 7, 17, newEvent.startDateHr, newEvent.startDateMin),
-                    new Date(2015, 7, 17, newEvent.endDateHr, newEvent.endDateMin),
-                    customOptions
-                );
+                if (startDate.isValid() && endDate.isValid() && Date.parse(startDate) < Date.parse(endDate)) {
+
+                    timetable.addEvent(
+                        newEvent.name,
+                        newEvent.day,
+                        startDate,
+                        endDate,
+                        customOptions
+                    );
+
+                    renderer.draw('.timetable'); // any css selector
+                } else {
+                    console.log(newEvent.name);
+                    alert("Class " + newEvent.name + " time is not valid. Please delete the class and re-add");
+                }
                 eventList.set(doc.id, newEvent);
-                renderer.draw('.timetable'); // any css selector
+                addToDelSelect(eventList);
             });
-            addToDelSelect(eventList);
+
         });
 
 }
@@ -185,7 +206,11 @@ function resetForm() {
     document.getElementById("newClassForm").reset();
 }
 
-
+Date.prototype.isValid = function () {
+    // An invalid date object returns NaN for getTime() and NaN is the only
+    // object not strictly equal to itself.
+    return this.getTime() === this.getTime();
+};
 
 
 
